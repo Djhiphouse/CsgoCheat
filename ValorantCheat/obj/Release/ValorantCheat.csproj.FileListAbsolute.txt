@@ -1,0 +1,7 @@
+C:\Users\fride\source\repos\ValorantCheat\ValorantCheat\obj\Release\ValorantCheat.csproj.AssemblyReference.cache
+C:\Users\fride\source\repos\ValorantCheat\ValorantCheat\obj\Release\ValorantCheat.csproj.SuggestedBindingRedirects.cache
+C:\Users\fride\source\repos\ValorantCheat\ValorantCheat\obj\Release\ValorantCheat.Form1.resources
+C:\Users\fride\source\repos\ValorantCheat\ValorantCheat\obj\Release\ValorantCheat.Form2.resources
+C:\Users\fride\source\repos\ValorantCheat\ValorantCheat\obj\Release\ValorantCheat.Properties.Resources.resources
+C:\Users\fride\source\repos\ValorantCheat\ValorantCheat\obj\Release\ValorantCheat.csproj.GenerateResource.cache
+C:\Users\fride\source\repos\ValorantCheat\ValorantCheat\obj\Release\ValorantCheat.csproj.CoreCompileInputs.cache
