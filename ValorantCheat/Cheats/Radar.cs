@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using System.Windows.Forms;
 using ZBase;
 using ZBase.Classes;
 using ZBase.Utilities;
@@ -12,7 +11,7 @@ namespace ValorantCheat.Cheats
 
 		public void Run()
 		{
-			MessageBox.Show("Started");
+			//MessageBox.Show("Started");
 			while (true)
 			{
 				if (Main.S.RadarHack)

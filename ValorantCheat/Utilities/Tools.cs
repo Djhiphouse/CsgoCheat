@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Forms;
 using ZBase.Classes;
 
 namespace ZBase.Utilities
@@ -135,14 +137,30 @@ namespace ZBase.Utilities
 			return Value / 255f;
 		}
 
-		public static bool HoldingKey(int keyid)
+		public static bool HoldingKey(String keyid)
 		{
-			if ((Memoryy.GetAsyncKeyState(keyid) & 0x8000) > 0)
+
+
+			if ((Memoryy.GetAsyncKeyState(Convert.ToInt32(keyid, 16)) & 0x8000) > 0)
 				return true;
 			else
 				return false;
 		}
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static extern bool GetCursorPos(out POINT lpPoint);
 
+		[StructLayout(LayoutKind.Sequential)]
+		public struct POINT
+		{
+			public int X;
+			public int Y;
+
+			public static implicit operator Vector2(POINT point)
+			{
+				return new Vector2(point.X, point.Y);
+			}
+		}
 		public static void MoveCursor(Vector2 position)
 		{
 			// mabye move to closest player's 2d head pos? :]
@@ -150,6 +168,34 @@ namespace ZBase.Utilities
 			float Y = (position.Y - (Main.ScreenSize.Height) / 2) / 2;
 			Memoryy.mouse_event(Mouse.MOUSEEVENTF_ABSOLUTE | Mouse.MOUSEEVENTF_MOVE, (uint)X, (uint)Y, 0, 0);
 		}
+		public static void SmoothMove(Vector2 position, int steps, int delay)
+		{
+			// Calculate the distance to be moved
+			float distanceX = position.X - Cursor.Position.X;
+			float distanceY = position.Y - Cursor.Position.Y;
+			float distance = (float)Math.Sqrt(distanceX * distanceX + distanceY * distanceY);
+
+			// Calculate the step size for each iteration
+			float stepX = distanceX / steps;
+			float stepY = distanceY / steps;
+
+			// Move the cursor gradually in small steps
+			for (int i = 0; i < steps; i++)
+			{
+				float deltaX = stepX * (i + 1);
+				float deltaY = stepY * (i + 1);
+				float ratio = (float)Math.Sqrt(deltaX * deltaX + deltaY * deltaY) / distance;
+				float newX = Cursor.Position.X + deltaX;
+				float newY = Cursor.Position.Y + deltaY;
+				Memoryy.mouse_event(Mouse.MOUSEEVENTF_ABSOLUTE | Mouse.MOUSEEVENTF_MOVE, (uint)newX, (uint)newY, 0, 0);
+				Thread.Sleep((int)(delay * ratio));
+			}
+
+			// Move the cursor to the final position
+			Memoryy.mouse_event(Mouse.MOUSEEVENTF_ABSOLUTE | Mouse.MOUSEEVENTF_MOVE, (uint)position.X, (uint)position.Y, 0, 0);
+		}
+
+
 
 		public static bool IsNullVector2(Vector2 vector)
 		{
@@ -200,6 +246,32 @@ namespace ZBase.Utilities
 				return true;
 			else
 				return false;
+		}
+		[DllImport("user32.dll")]
+		public static extern short GetAsyncKeyState(int vKey);
+		public static string GetPressedHotKey(Label Keysafed, Label RealKey)
+		{
+			bool Pressed = false;
+			Thread.Sleep(1000);
+			string hex = "21";
+			while (!Pressed)
+			{
+				for (int i = 0; i < 256; i++)
+				{
+					if (GetAsyncKeyState(i) != 0)
+					{
+
+						char c = (char)i;
+						int code = (int)c;
+						hex = code.ToString("X");
+						Keysafed.Text = $"Key: '{c}'";
+						RealKey.Text = "0x" + hex;
+						Pressed = true;
+					}
+				}
+			}
+
+			return "0x" + hex;
 		}
 
 		public static Size RectToSize(RECT rect)

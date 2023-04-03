@@ -19,7 +19,7 @@ namespace ZBase.Utilities
 		{
 			//https://raw.githubusercontent.com/frk1/hazedumper/master/csgo.json
 			System.Net.WebClient wc = new System.Net.WebClient();
-			String raw = wc.DownloadString("https://pastebin.com/raw/qkVYUf1b");
+			String raw = wc.DownloadString("https://raw.githubusercontent.com/frk1/hazedumper/master/csgo.json");
 			//string webData = Encoding.UTF8.GetString(raw);
 			File.WriteAllText($@"{Application.StartupPath}\csgo.json", raw);
 			GetOffsetsFromFile();

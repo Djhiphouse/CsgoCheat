@@ -1,4 +1,0 @@
-pymem
-keyboard
-pywin32
-requests

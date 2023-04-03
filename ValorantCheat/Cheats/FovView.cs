@@ -5,9 +5,9 @@ namespace ZBase.Cheats
 {
 	public class FovView
 	{
-		public static Siticone.UI.WinForms.SiticoneSlider Bar;
+		public static Siticone.Desktop.UI.WinForms.SiticoneTrackBar Bar;
 
-		public FovView(Siticone.UI.WinForms.SiticoneSlider BarBox)
+		public FovView(Siticone.Desktop.UI.WinForms.SiticoneTrackBar BarBox)
 		{
 			Bar = BarBox;
 		}

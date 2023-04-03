@@ -1,23 +1,31 @@
 ﻿using System.Threading;
+using System.Windows.Forms;
 using ZBase.Utilities;
 
 namespace ZBase.Cheats
 {
 	public class TriggerBot
 	{
-		public static void Run()
+		public static void Run(Label HotKey)
 		{
 			while (true)
 			{
+
+
 				if (Main.S.TriggerBot) // make sure the cheats enabled in the menu
 				{
-					if (Tools.HoldingKey(Keys.VK_SHIFT)) // while holding space
+
+					//MessageBox.Show("KEY: " + HotKey.Text);
+					if (Tools.HoldingKey(HotKey.Text)) // while holding space
 					{
+
 						// Flags show if you are on the ground or not. 257 is standing on the ground, and 263 is crouching on the ground.
 						if (Main.S.OnlyTriggerAtSniper)
 						{
-							if (G.Engine.LocalPlayer.WeaponName == "AWP" && G.Engine.LocalPlayer.WeaponName == "SCAR-20")
+
+							if (G.Engine.LocalPlayer.WeaponName == "AWP" || G.Engine.LocalPlayer.WeaponName == "SCAR-20")
 							{
+								//	MessageBox.Show("Triggert");
 								if (G.Engine.LocalPlayer.TriggerisTriggerd())
 								{
 									Thread.Sleep(1);
@@ -31,10 +39,13 @@ namespace ZBase.Cheats
 						}
 						else
 						{
+
 							if (G.Engine.LocalPlayer.TriggerisTriggerd())
 							{
-								Thread.Sleep(5);
+
+								Thread.Sleep(15);
 								G.Engine.ForceAttack();
+								//MessageBox.Show("KEY: " + HotKey.Text);
 							}
 							else
 							{

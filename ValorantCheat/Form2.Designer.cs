@@ -1,4 +1,5 @@
-﻿namespace ValorantCheat
+﻿
+namespace ValorantCheat
 {
     partial class Form2
     {

@@ -16,6 +16,7 @@
 		public bool TriggerFreeforall;
 		public bool NoRecoil;
 		public bool Aimbot;
+		public bool DisableOnSniperAimbotCheck;
 		public bool Head;
 		public bool Body;
 		public bool tracers;
@@ -24,5 +25,7 @@
 		public bool FakeLag;
 		public bool RadarHack;
 		public bool OnlyTriggerAtSniper;
+		public bool AimLockOption;
+		public bool SkeletESP;
 	}
 }

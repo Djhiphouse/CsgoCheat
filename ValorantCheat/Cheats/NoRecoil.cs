@@ -13,7 +13,7 @@ namespace ZBase.Cheats
 				{
 
 					// Flags show if you are on the ground or not. 257 is standing on the ground, and 263 is crouching on the ground.
-					if (Tools.HoldingKey(Keys.VK_LBUTTON)) // while holding space
+					if (Tools.HoldingKey("")) // while holding space
 						G.Engine.ReduceRecoil();
 
 

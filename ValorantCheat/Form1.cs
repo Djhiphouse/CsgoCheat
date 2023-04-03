@@ -2,17 +2,21 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ValorantCheat.Cheats;
 using ZBase;
 using ZBase.Cheats;
 using ZBase.Utilities;
+using Color = System.Drawing.Color;
 
 namespace ValorantCheat
 {
 	public partial class Form1 : Form
 
 	{
+
+		public System.Drawing.Color ESPColor = System.Drawing.Color.AliceBlue;
 		[DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
 		private static extern IntPtr CreateRoundRectRgn
 		(
@@ -35,7 +39,8 @@ namespace ValorantCheat
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			MessageBox.Show("Starting UI");
+			SmothnessSlider.Visible = false;
+			NameFadein.Start();
 			if (Main.RunStartup())
 			{
 				//timer1.Start();
@@ -59,7 +64,7 @@ namespace ValorantCheat
 				new Thread(() =>
 				{
 					Thread.CurrentThread.IsBackground = true;
-					Visuals v = new Visuals();
+					Visuals v = new Visuals(ColorSelcterRGB, TracerColorRGB);
 					v.Run();
 				}).Start();
 				new Thread(() =>
@@ -70,7 +75,7 @@ namespace ValorantCheat
 				new Thread(() =>
 				{
 					Thread.CurrentThread.IsBackground = true;
-					Aimbot v = new Aimbot(FovBar);
+					Aimbot v = new Aimbot(FovBar, HotKeyAimbot);
 					v.Run();
 				}).Start();
 				new Thread(() =>
@@ -88,7 +93,7 @@ namespace ValorantCheat
 				new Thread(() =>
 				{
 					Thread.CurrentThread.IsBackground = true;
-					TriggerBot.Run();
+					TriggerBot.Run(HotKeyTriggerBot);
 				}).Start();
 				new Thread(() =>
 				{
@@ -143,6 +148,9 @@ namespace ValorantCheat
 				Main.S.HealthCheck = HeathbarCheck.Checked;
 				Main.S.FakeLag = Fakelag.Checked;
 				Main.S.OnlyTriggerAtSniper = OnlySniperCheck.Checked;
+				Main.S.AimLockOption = AimbotCheck.Checked;
+				Main.S.DisableOnSniperAimbotCheck = DsiableonSniper.Checked;
+				Main.S.SkeletESP = SkelettESP.Checked;
 				//FOV ENABLE
 				//Main.S.FovViewChanger = RadarCheck.Checked;
 				//
@@ -178,26 +186,25 @@ namespace ValorantCheat
 
 		private void gunaButton1_Click(object sender, EventArgs e)
 		{
-			gunaElipsePanel7.Show();
-			gunaElipsePanel12.Hide();
-			gunaElipsePanel14.Hide();
+			VisualsPage.Hide();
+			SettingsPage.Hide();
+			AimbotPage.Show();
 
 		}
 
 		private void gunaButton2_Click(object sender, EventArgs e)
 		{
-			gunaElipsePanel7.Hide();
-			gunaElipsePanel12.Show();
-			gunaElipsePanel14.Hide();
-
+			AimbotPage.Hide();
+			SettingsPage.Hide();
+			VisualsPage.Show();
 
 		}
 
 		private void gunaButton4_Click(object sender, EventArgs e)
 		{
-			gunaElipsePanel14.Show();
-			gunaElipsePanel7.Hide();
-			gunaElipsePanel12.Hide();
+			AimbotPage.Hide();
+			VisualsPage.Hide();
+			SettingsPage.Show();
 		}
 
 		private void gunaCheckBox14_CheckedChanged(object sender, EventArgs e)
@@ -261,6 +268,109 @@ namespace ValorantCheat
 		private void gunaCheckBox3_CheckedChanged(object sender, EventArgs e)
 		{
 
+		}
+
+		private void VisualsPage_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void ESPCheck_CheckedChanged(object sender, EventArgs e)
+		{
+			SkinWithESP.Visible = ESPCheck.Checked;
+		}
+
+		private void HeathbarCheck_CheckedChanged(object sender, EventArgs e)
+		{
+			HealthBarPrereview.Visible = HeathbarCheck.Checked;
+		}
+
+		private void pictureBox3_MouseMove(object sender, MouseEventArgs e)
+		{
+
+		}
+
+		private void ColorBar_MouseMove(object sender, MouseEventArgs e)
+		{
+			Bitmap bitmap = (Bitmap)ColorBar.Image;
+			Color color = bitmap.GetPixel(e.X, e.Y);
+			SelectedColor.BackColor = color;
+			SkinWithESP.BorderColor = SelectedColor.BackColor;
+		}
+
+		private void ColorBar_MouseDown(object sender, MouseEventArgs e)
+		{
+			SkinWithESP.BorderColor = SelectedColor.BackColor;
+			ColorSelcterRGB.BackColor = SelectedColor.BackColor;
+		}
+
+		private void ColorBar_DoubleClick(object sender, EventArgs e)
+		{
+
+		}
+
+		private void TracerColorRGB_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+
+		}
+
+		private void ColorPicker2_Click(object sender, EventArgs e)
+		{
+			//TracerColorRGB.BackColor = SelectedColor.BackColor;
+		}
+
+		private void ColorPicker2_MouseMove(object sender, MouseEventArgs e)
+		{
+			Bitmap bitmap = (Bitmap)ColorPicker2.Image;
+			Color color = bitmap.GetPixel(e.X, e.Y);
+			ColorPickerSelecter2.BackColor = color;
+			PrereviewColorTracer.BackColor = color;
+
+		}
+
+		private void ColorPicker2_MouseDown(object sender, MouseEventArgs e)
+		{
+			TracerColorRGB.BackColor = ColorPickerSelecter2.BackColor;
+			//MessageBox.Show("Updated to Backcolor: " + TracerColorRGB.BackColor);
+		}
+
+		public String ShopNameCredit = "Blacksite Store     ";
+		public int curNums = 0;
+		public bool fadeback = false;
+		private void NameFadein_Tick(object sender, EventArgs e)
+		{
+			if (fadeback)
+			{
+
+			}
+			ShopName.Text += ShopNameCredit[curNums];
+			curNums++;
+			if (curNums == ShopNameCredit.Length)
+			{
+
+				ShopName.Text = "";
+				curNums = 0;
+			}
+
+
+		}
+
+		private void guna2ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void AimbotHotkey_Click(object sender, EventArgs e)
+		{
+			KeysafeAimbot.Text = "Waiting for keyPress";
+			Task.Run(() => { Tools.GetPressedHotKey(KeysafeAimbot, HotKeyAimbot); });
+
+		}
+
+		private void gunaButton7_Click_1(object sender, EventArgs e)
+		{
+			TriggerbotHotKeyPess.Text = "Waiting for keyPress";
+			Task.Run(() => { Tools.GetPressedHotKey(TriggerbotHotKeyPess, HotKeyTriggerBot); });
 		}
 	}
 }

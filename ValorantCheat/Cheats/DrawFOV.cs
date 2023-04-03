@@ -10,8 +10,8 @@ namespace ZBase.Cheats
 	{
 		#region things
 		private readonly GraphicsWindow _window;
-		Siticone.UI.WinForms.SiticoneSlider guna;
-		public DrawFOV(Siticone.UI.WinForms.SiticoneSlider bar)
+		Siticone.Desktop.UI.WinForms.SiticoneTrackBar guna;
+		public DrawFOV(Siticone.Desktop.UI.WinForms.SiticoneTrackBar bar)
 		{
 			guna = bar;
 			// initialize a new Graphics object
